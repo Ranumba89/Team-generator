@@ -42,6 +42,23 @@ const syncFunc = async () => {
 
 
     ]);
+    const combineAnswer= {...mangerAnswer, ...personalAns}
+    // console.log(combineArray);
+    
+    const manager = new Manager(
+        combineAnswer.name, 
+        combineAnswer.id, 
+        combineAnswer.email, 
+        combineAnswer.officeNumber
+        )
+    empArray.push(manager);
+    
+    const mainHtml = render(empArray);
+    fs.writeFile("team.html", mainHtml, (err) => {
+        if (err) throw err;
+        console.log('The file has been saved!');
+    })
+
 }
 syncFunc()
 
