@@ -14,6 +14,37 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
+const personalInfo = async (empType) => {
+    const ans = await inquirer.prompt([
+        {
+            message: `What is your ${empType} name`,
+            name: "name",
+        },
+        {
+            message: `What is your ${empType} id number?`,
+            name: "id",
+        },
+        {
+            message: `What is your ${empType} email ?`,
+            name: "email",
+        },
+    ]);
+    return ans;
+}
+const syncFunc = async () => {
+    let empArray = [];
+    const personalAns = await personalInfo("manager")
+    const mangerAnswer = await inquirer.prompt([
+        {
+            message: "What is your managers office number ?",
+            name: "officeNumber",
+        },
+
+
+    ]);
+}
+syncFunc()
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
