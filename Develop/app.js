@@ -42,6 +42,7 @@ const syncFunc = async () => {
 
 
     ]);
+    
     const combineAnswer= {...mangerAnswer, ...personalAns}
     // console.log(combineArray);
     
@@ -52,13 +53,82 @@ const syncFunc = async () => {
         combineAnswer.officeNumber
         )
     empArray.push(manager);
-    
+
+    const exitAnswer = "I dont want any more members";
+    const internSelected = "Intern";
+    const engineerSelected = "Engineer";
+    while (true) {
+
+        const empAnswer = await inquirer.prompt(
+            {
+
+                type: "list",
+                message: "What type of team member do you want ",
+                name: "empType",
+                choices: [
+                    engineerSelected,
+                    internSelected,
+                    exitAnswer
+                ]
+            }
+        );
+
+        console.log(empAnswer.empType);
+
+        if (empAnswer.empType === exitAnswer) {
+            break
+        }
+        if (empAnswer.empType === internSelected) {
+            const personalAns = await personalInfo(internSelected)
+
+            const ans = await inquirer.prompt([
+                {
+
+                    message: "What is your school",
+                    name: "school",
+                },
+
+            ]);
+            console.log(ans);
+    const combineAnswer= {...ans, ...personalAns}
+    const intern = new Intern(
+        combineAnswer.name, 
+        combineAnswer.id, 
+        combineAnswer.email, 
+        combineAnswer.school
+        )
+            empArray.push(intern);
+
+
+        }
+        if (empAnswer.empType === engineerSelected) {
+    const personalAns = await personalInfo(engineerSelected)
+
+            const ans = await inquirer.prompt([
+                {
+                    message: "What is your github",
+                    name: "github",
+                },
+            ]);
+            console.log(ans);
+    const combineAnswer= {...ans, ...personalAns}
+            const engineer = new Engineer(
+                combineAnswer.name, 
+                combineAnswer.id, 
+                combineAnswer.email, 
+                combineAnswer.github
+                )
+            empArray.push(engineer);
+
+        }
+
+    }
+
     const mainHtml = render(empArray);
     fs.writeFile("team.html", mainHtml, (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     })
-
 }
 syncFunc()
 
